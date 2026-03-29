@@ -14,14 +14,11 @@ process.env.SUPABASE_SERVICE_KEY
 
 var FRONTEND_URL = process.env.FRONTEND_URL || ‘https://split.game’;
 
-// Replace with your actual price_xxx IDs from Stripe Dashboard
-// Go to: Products > click product > copy the price_xxx ID under Pricing
 var PRICES = {
 standard: ‘price_1TGCcV6Y0qc5ka7CjDbqDglm’,
-origin:   ’price_1TGCdK6Y0qc5ka7CpAGoWJ2q’,
+origin:   ‘price_1TGCdK6Y0qc5ka7CpAGoWJ2q’,
 };
 
-// Raw body for Stripe webhook - must be before express.json()
 app.use(’/stripe-webhook’, express.raw({ type: ‘application/json’ }));
 app.use(express.json());
 app.use(cors({
@@ -29,12 +26,10 @@ origin: [FRONTEND_URL, ‘http://localhost:3000’],
 methods: [‘GET’, ‘POST’],
 }));
 
-// Health check
 app.get(’/’, function(req, res) {
 res.json({ status: ‘Split backend running’ });
 });
 
-// Track page view
 app.post(’/track-view’, function(req, res) {
 supabase.from(‘page_views’).insert({
 session_id: req.body.session_id,
@@ -46,7 +41,6 @@ res.json({ ok: false });
 });
 });
 
-// Submit score
 app.post(’/submit-score’, function(req, res) {
 var username    = String(req.body.username || ‘Anonymous’).slice(0, 12);
 var score       = parseInt(req.body.score) || 0;
@@ -73,7 +67,6 @@ res.status(500).json({ error: ‘Server error’ });
 });
 });
 
-// Leaderboard top 20
 app.get(’/leaderboard’, function(req, res) {
 supabase
 .from(‘leaderboard’)
@@ -90,7 +83,6 @@ res.status(500).json({ error: ‘Server error’ });
 });
 });
 
-// Player rank
 app.get(’/rank/:username’, function(req, res) {
 var username = req.params.username;
 supabase
@@ -114,7 +106,6 @@ res.status(500).json({ error: ‘Server error’ });
 });
 });
 
-// Create Stripe checkout session
 app.post(’/create-checkout-session’, function(req, res) {
 var tier     = req.body.tier;
 var username = req.body.username || ‘Anonymous’;
@@ -139,7 +130,6 @@ res.status(500).json({ error: ‘Could not create checkout session’ });
 });
 });
 
-// Stripe webhook
 app.post(’/stripe-webhook’, function(req, res) {
 var sig   = req.headers[‘stripe-signature’];
 var event;
@@ -161,7 +151,7 @@ var tier     = session.metadata.tier;
 var username = session.metadata.username;
 var email    = session.customer_details ? session.customer_details.email : null;
 
-
+```
 supabase.from('purchases').insert({
   username:          username,
   email:             email,
@@ -182,14 +172,13 @@ supabase.from('purchases').insert({
 }).catch(function(e) {
   console.error('Supabase insert error:', e);
 });
-
+```
 
 }
 
 res.json({ received: true });
 });
 
-// Admin stats
 app.get(’/admin/stats’, function(req, res) {
 var auth = req.headers[‘x-admin-key’];
 if(auth !== process.env.ADMIN_KEY) {
