@@ -12,7 +12,7 @@ var supabase = supabaseJs.createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
-var FRONTEND_URL = process.env.FRONTEND_URL || 'https://split.game';
+var FRONTEND_URL = process.env.FRONTEND_URL || 'https://split.games';
 
 var PRICES = {
   standard: 'price_1TGCcV6Y0qc5ka7CjDbqDglm',
