@@ -1,5 +1,5 @@
 // =============================================
-//  SPLIT GAME — RAILWAY BACKEND
+//  SPLIT GAME - RAILWAY BACKEND
 //  Node.js / Express
 //
 //  Environment variables to set in Railway:
@@ -16,18 +16,18 @@
 var express    = require(‘express’);
 var cors       = require(‘cors’);
 var Stripe     = require(‘stripe’);
-var { createClient } = require(’@supabase/supabase-js’);
+var supabaseJs = require(’@supabase/supabase-js’);
 
 var app    = express();
 var stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-var supabase = createClient(
+var supabase = supabaseJs.createClient(
 process.env.SUPABASE_URL,
 process.env.SUPABASE_SERVICE_KEY
 );
 
 var FRONTEND_URL = process.env.FRONTEND_URL || ‘https://split.game’;
 
-// Stripe price IDs — add yours from Stripe dashboard
+// Stripe price IDs - add yours from Stripe dashboard
 // NOTE: You gave PRODUCT IDs (prod_xxx). Go to Stripe Dashboard > Products
 // click each product > find the Price ID (price_xxx) and add it below
 var PRICES = {
@@ -45,7 +45,7 @@ app.use(’/stripe-webhook’, express.raw({ type: ‘application/json’ }));
 // JSON for all other routes
 app.use(express.json());
 
-// CORS — allow split.game frontend
+// CORS - allow split.game frontend
 app.use(cors({
 origin: [FRONTEND_URL, ‘http://localhost:3000’],
 methods: [‘GET’, ‘POST’],
