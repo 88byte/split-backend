@@ -151,7 +151,7 @@ var tier     = session.metadata.tier;
 var username = session.metadata.username;
 var email    = session.customer_details ? session.customer_details.email : null;
 
-```
+
 supabase.from('purchases').insert({
   username:          username,
   email:             email,
@@ -172,7 +172,7 @@ supabase.from('purchases').insert({
 }).catch(function(e) {
   console.error('Supabase insert error:', e);
 });
-```
+
 
 }
 
