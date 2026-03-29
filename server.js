@@ -203,7 +203,7 @@ app.get('/admin/stats', function(req, res) {
     });
 });
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 8080;
 app.listen(PORT, function() {
   console.log('Split backend running on port', PORT);
 });
