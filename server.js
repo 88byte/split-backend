@@ -381,7 +381,7 @@ app.get('/admin/stats', function(req, res) {
       .limit(50),
     // Recent game sessions
     supabase.from('game_sessions')
-      .select('username, score, level, obstacles_cleared, created_at')
+      .select('username, score, level, created_at')
       .order('created_at', { ascending: false })
       .limit(50),
     // Revenue by day — last 14 days
